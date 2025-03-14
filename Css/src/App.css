@@ -1,0 +1,13 @@
+body {
+  margin: 0 auto;
+  word-break: keep-all;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+li {
+  list-style-type: none;
+}

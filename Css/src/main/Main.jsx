@@ -10,10 +10,10 @@ const Main = () => {
   }, []);
 
   return (
-    <Wrapper isLoaded={isLoaded}>
+    <Wrapper $isLoaded={isLoaded}>
       <GradientBackground>
         <Container>
-          <Header isLoaded={isLoaded}>
+          <Header $isLoaded={isLoaded}>
             <TitleWrapper>
               <Title>CSS Tools</Title>
               <TitleAccent>.</TitleAccent>
@@ -23,11 +23,11 @@ const Main = () => {
             </Subtitle>
           </Header>
 
-          <FeatureSection isLoaded={isLoaded}>
+          <FeatureSection $isLoaded={isLoaded}>
             <FeatureCard
               as={Link}
               to="/css-animations"
-              whileHover={{ scale: 1.05 }}
+              // whileHover prop 제거
             >
               <CardContent>
                 <IconWrapper>
@@ -51,7 +51,7 @@ const Main = () => {
             </FeatureCard>
           </FeatureSection>
 
-          <FooterSection isLoaded={isLoaded}>
+          <FooterSection $isLoaded={isLoaded}>
             <FooterText>최신 웹 개발 트렌드와 함께하세요</FooterText>
           </FooterSection>
         </Container>
@@ -62,6 +62,7 @@ const Main = () => {
 
 export default Main;
 
+// 여기서부터 스타일 정의는 동일하게 유지됩니다
 const glowPulse = keyframes`
   0% { opacity: 0.5; }
   50% { opacity: 0.8; }
@@ -98,7 +99,7 @@ const media = {
 // 스타일 컴포넌트 정의
 const Wrapper = styled.div`
   min-height: 100vh;
-  opacity: ${(props) => (props.isLoaded ? 1 : 0)};
+  opacity: ${(props) => (props.$isLoaded ? 1 : 0)};
   transition: opacity 0.8s ease-in-out;
 `;
 
@@ -145,9 +146,9 @@ const Container = styled.div`
 const Header = styled.header`
   text-align: center;
   margin-bottom: 4rem;
-  opacity: ${(props) => (props.isLoaded ? 1 : 0)};
+  opacity: ${(props) => (props.$isLoaded ? 1 : 0)};
   transform: ${(props) =>
-    props.isLoaded ? "translateY(0)" : "translateY(30px)"};
+    props.$isLoaded ? "translateY(0)" : "translateY(30px)"};
   transition: opacity 0.8s ease, transform 0.8s ease;
   transition-delay: 0.2s;
 
@@ -234,9 +235,9 @@ const FeatureSection = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 4rem;
-  opacity: ${(props) => (props.isLoaded ? 1 : 0)};
+  opacity: ${(props) => (props.$isLoaded ? 1 : 0)};
   transform: ${(props) =>
-    props.isLoaded ? "translateY(0)" : "translateY(30px)"};
+    props.$isLoaded ? "translateY(0)" : "translateY(30px)"};
   transition: opacity 0.8s ease, transform 0.8s ease;
   transition-delay: 0.4s;
 
@@ -410,9 +411,9 @@ const ButtonArrow = styled.span`
 
 const FooterSection = styled.footer`
   text-align: center;
-  opacity: ${(props) => (props.isLoaded ? 1 : 0)};
+  opacity: ${(props) => (props.$isLoaded ? 1 : 0)};
   transform: ${(props) =>
-    props.isLoaded ? "translateY(0)" : "translateY(30px)"};
+    props.$isLoaded ? "translateY(0)" : "translateY(30px)"};
   transition: opacity 0.8s ease, transform 0.8s ease;
   transition-delay: 0.6s;
 `;

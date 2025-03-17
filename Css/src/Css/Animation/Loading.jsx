@@ -6,7 +6,48 @@ const Loading = () => {
   return (
     <Container>
       <Header>
-        <BackLink to="/css-animations">← 애니메이션 메인으로</BackLink>
+        <BackLink to="/css-animations">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <g
+              fill="none"
+              stroke="#f1f1f1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+            >
+              <path
+                strokeDasharray="64"
+                strokeDashoffset="64"
+                d="M21 12c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9c0 -4.97 4.03 -9 9 -9c4.97 0 9 4.03 9 9Z"
+              >
+                <animate
+                  fill="freeze"
+                  attributeName="stroke-dashoffset"
+                  dur="0.6s"
+                  values="64;0"
+                />
+              </path>
+              <path
+                strokeDasharray="6"
+                strokeDashoffset="6"
+                d="M10 12l3 -3M10 12l3 3"
+              >
+                <animate
+                  fill="freeze"
+                  attributeName="stroke-dashoffset"
+                  begin="0.7s"
+                  dur="0.3s"
+                  values="6;0"
+                />
+              </path>
+            </g>
+          </svg>
+        </BackLink>
         <Title>로딩 애니메이션</Title>
         <Subtitle>
           사용자에게 처리 중임을 알려주는 다양한 로딩 애니메이션 효과
@@ -61,9 +102,9 @@ animation: pulse 1.5s ease infinite;`}
           <AnimationTitle>도트 로딩 (Dots)</AnimationTitle>
           <AnimationContainer>
             <DotContainer>
-              <Dot delay="0s" />
-              <Dot delay="0.2s" />
-              <Dot delay="0.4s" />
+              <Dot $delay="0s" />
+              <Dot $delay="0.2s" />
+              <Dot $delay="0.4s" />
             </DotContainer>
           </AnimationContainer>
           <CodeBlock>
@@ -120,9 +161,9 @@ circle {
           <AnimationTitle>스켈레톤 (Skeleton)</AnimationTitle>
           <AnimationContainer>
             <SkeletonContainer>
-              <SkeletonLine width="80%" />
-              <SkeletonLine width="90%" />
-              <SkeletonLine width="60%" />
+              <SkeletonLine $width="100%" />
+              <SkeletonLine $width="80%" />
+              <SkeletonLine $width="60%" />
             </SkeletonContainer>
           </AnimationContainer>
           <CodeBlock>
@@ -174,11 +215,11 @@ animation:
           <AnimationTitle>파도 로딩 (Wave)</AnimationTitle>
           <AnimationContainer>
             <WaveContainer>
-              <WaveBar delay="0s" />
-              <WaveBar delay="0.2s" />
-              <WaveBar delay="0.4s" />
-              <WaveBar delay="0.6s" />
-              <WaveBar delay="0.8s" />
+              <WaveBar $delay="0s" />
+              <WaveBar $delay="0.2s" />
+              <WaveBar $delay="0.4s" />
+              <WaveBar $delay="0.6s" />
+              <WaveBar $delay="0.8s" />
             </WaveContainer>
           </AnimationContainer>
           <CodeBlock>
@@ -259,9 +300,9 @@ animation: gradient-rotation 3s linear infinite;`}
           <AnimationTitle>텍스트 로딩 (Text)</AnimationTitle>
           <AnimationContainer>
             <TextLoader>
-              Loading<TextDot delay="0s">.</TextDot>
-              <TextDot delay="0.5s">.</TextDot>
-              <TextDot delay="1s">.</TextDot>
+              Loading<TextDot $delay="0s">.</TextDot>
+              <TextDot $delay="0.5s">.</TextDot>
+              <TextDot $delay="1s">.</TextDot>
             </TextLoader>
           </AnimationContainer>
           <CodeBlock>
@@ -283,9 +324,9 @@ animation: gradient-rotation 3s linear infinite;`}
           <AnimationTitle>물결 효과 (Ripple)</AnimationTitle>
           <AnimationContainer>
             <RippleContainer>
-              <RippleCircle delay="0s" />
-              <RippleCircle delay="1s" />
-              <RippleCircle delay="2s" />
+              <RippleCircle $delay="0s" />
+              <RippleCircle $delay="1s" />
+              <RippleCircle $delay="2s" />
             </RippleContainer>
           </AnimationContainer>
           <CodeBlock>
@@ -316,7 +357,7 @@ animation-delay: [varies];`}
           <AnimationContainer>
             <AudioWaveContainer>
               {[...Array(10)].map((_, index) => (
-                <AudioBar key={index} delay={`${index * 0.1}s`} />
+                <AudioBar key={index} $delay={`${index * 0.1}s`} />
               ))}
             </AudioWaveContainer>
           </AnimationContainer>
@@ -471,12 +512,11 @@ const Header = styled.header`
 const BackLink = styled(Link)`
   display: block;
   margin-bottom: 1rem;
-  color: #f1f5f9;
   text-decoration: none;
   font-size: 1rem;
+  text-align: left;
 
   &:hover {
-    color: #f1f5f9;
     text-decoration: underline;
   }
 `;
@@ -612,7 +652,7 @@ const Dot = styled.div`
   display: inline-block;
   margin: 0 5px;
   animation: ${bounce} 1.4s ease infinite;
-  animation-delay: ${(props) => props.delay};
+  animation-delay: ${(props) => props.$delay};
 `;
 
 // 원형 프로그레스 애니메이션
@@ -644,8 +684,12 @@ const CircleProgress = () => (
 
 // 스켈레톤 로딩 애니메이션
 const shimmer = keyframes`
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 `;
 
 const SkeletonContainer = styled.div`
@@ -654,13 +698,15 @@ const SkeletonContainer = styled.div`
 `;
 
 const SkeletonLine = styled.div`
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  border-radius: 4px;
   height: 12px;
-  width: ${(props) => props.width || "100%"};
+  width: ${(props) => props.$width || "100%"};
   margin-bottom: 8px;
-  animation: ${shimmer} 2s infinite;
+  border-radius: 4px;
+
+  /* 그라데이션과 애니메이션을 직접 배경에 적용 */
+  background: linear-gradient(90deg, #e2e5e7 0%, #f0f0f0 50%, #e2e5e7 100%);
+  background-size: 200% 100%;
+  animation: ${shimmer} 1.5s infinite linear;
 `;
 
 // 타이핑 로딩 애니메이션
@@ -703,7 +749,7 @@ const WaveBar = styled.div`
   background-color: #3498db;
   border-radius: 4px;
   animation: ${wave} 1.2s ease-in-out infinite;
-  animation-delay: ${(props) => props.delay};
+  animation-delay: ${(props) => props.$delay};
   transform-origin: center bottom;
 `;
 
@@ -763,7 +809,7 @@ const TextLoader = styled.div`
 const TextDot = styled.span`
   display: inline-block;
   animation: ${fadeInOut} 1.5s infinite;
-  animation-delay: ${(props) => props.delay};
+  animation-delay: ${(props) => props.$delay};
 `;
 
 // 물결 효과 애니메이션
@@ -796,7 +842,7 @@ const RippleCircle = styled.div`
   border: 2px solid #3498db;
   border-radius: 50%;
   animation: ${ripple} 3s linear infinite;
-  animation-delay: ${(props) => props.delay};
+  animation-delay: ${(props) => props.$delay};
 `;
 
 // 음성파 로딩 애니메이션
@@ -817,7 +863,7 @@ const AudioBar = styled.div`
   margin: 0 2px;
   background-color: #3498db;
   animation: ${audioWave} 1s ease-in-out infinite;
-  animation-delay: ${(props) => props.delay};
+  animation-delay: ${(props) => props.$delay};
   transform-origin: center bottom;
 `;
 

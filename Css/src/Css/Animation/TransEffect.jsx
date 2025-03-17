@@ -6,7 +6,48 @@ const TransEffect = () => {
   return (
     <Container>
       <Header>
-        <BackLink to="/css-animations">← 애니메이션 메인으로</BackLink>
+        <BackLink to="/css-animations">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <g
+              fill="none"
+              stroke="#f1f1f1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+            >
+              <path
+                strokeDasharray="64"
+                strokeDashoffset="64"
+                d="M21 12c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9c0 -4.97 4.03 -9 9 -9c4.97 0 9 4.03 9 9Z"
+              >
+                <animate
+                  fill="freeze"
+                  attributeName="stroke-dashoffset"
+                  dur="0.6s"
+                  values="64;0"
+                />
+              </path>
+              <path
+                strokeDasharray="6"
+                strokeDashoffset="6"
+                d="M10 12l3 -3M10 12l3 3"
+              >
+                <animate
+                  fill="freeze"
+                  attributeName="stroke-dashoffset"
+                  begin="0.7s"
+                  dur="0.3s"
+                  values="6;0"
+                />
+              </path>
+            </g>
+          </svg>
+        </BackLink>
         <Title>변형 효과</Title>
         <Subtitle>
           회전, 크기 조절, 기울임 등 요소의 형태를 변경하는 다양한 변형 효과
@@ -557,12 +598,11 @@ const Header = styled.header`
 const BackLink = styled(Link)`
   display: block;
   margin-bottom: 1rem;
-  color: #666;
   text-decoration: none;
   font-size: 1rem;
+  text-align: left;
 
   &:hover {
-    color: #333;
     text-decoration: underline;
   }
 `;

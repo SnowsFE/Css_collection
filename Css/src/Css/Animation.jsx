@@ -10,10 +10,10 @@ const Animations = () => {
   }, []);
 
   return (
-    <Wrapper isLoaded={isLoaded}>
+    <Wrapper $isLoaded={isLoaded}>
       <GradientBackground>
         <Container>
-          <Header isLoaded={isLoaded}>
+          <Header $isLoaded={isLoaded}>
             <TitleWrapper>
               <Title>CSS 애니메이션</Title>
               <TitleAccent>.</TitleAccent>
@@ -23,7 +23,7 @@ const Animations = () => {
             </Subtitle>
           </Header>
 
-          <CategorySection isLoaded={isLoaded}>
+          <CategorySection $isLoaded={isLoaded}>
             <CategoryCard to="/css-animations/trans-effect">
               <CardContent>
                 <IconWrapper>
@@ -91,7 +91,7 @@ const Animations = () => {
             </CategoryCard>
           </CategorySection>
 
-          <FooterSection isLoaded={isLoaded}>
+          <FooterSection $isLoaded={isLoaded}>
             <FooterText>최신 CSS 기술로 경험을 향상시키세요</FooterText>
           </FooterSection>
         </Container>
@@ -150,7 +150,7 @@ const media = {
 // 스타일 컴포넌트 정의
 const Wrapper = styled.div`
   min-height: 100vh;
-  opacity: ${(props) => (props.isLoaded ? 1 : 0)};
+  opacity: ${(props) => (props.$isLoaded ? 1 : 0)};
   transition: opacity 0.8s ease-in-out;
 `;
 
@@ -197,9 +197,9 @@ const Container = styled.div`
 const Header = styled.header`
   text-align: center;
   margin-bottom: 4rem;
-  opacity: ${(props) => (props.isLoaded ? 1 : 0)};
+  opacity: ${(props) => (props.$isLoaded ? 1 : 0)};
   transform: ${(props) =>
-    props.isLoaded ? "translateY(0)" : "translateY(30px)"};
+    props.$isLoaded ? "translateY(0)" : "translateY(30px)"};
   transition: opacity 0.8s ease, transform 0.8s ease;
   transition-delay: 0.2s;
 
@@ -287,9 +287,9 @@ const CategorySection = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
   margin-bottom: 4rem;
-  opacity: ${(props) => (props.isLoaded ? 1 : 0)};
+  opacity: ${(props) => (props.$isLoaded ? 1 : 0)};
   transform: ${(props) =>
-    props.isLoaded ? "translateY(0)" : "translateY(30px)"};
+    props.$isLoaded ? "translateY(0)" : "translateY(30px)"};
   transition: opacity 0.8s ease, transform 0.8s ease;
   transition-delay: 0.4s;
 
@@ -483,9 +483,9 @@ const ButtonArrow = styled.span`
 
 const FooterSection = styled.footer`
   text-align: center;
-  opacity: ${(props) => (props.isLoaded ? 1 : 0)};
+  opacity: ${(props) => (props.$isLoaded ? 1 : 0)};
   transform: ${(props) =>
-    props.isLoaded ? "translateY(0)" : "translateY(30px)"};
+    props.$isLoaded ? "translateY(0)" : "translateY(30px)"};
   transition: opacity 0.8s ease, transform 0.8s ease;
   transition-delay: 0.6s;
 `;

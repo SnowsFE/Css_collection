@@ -6,9 +6,9 @@ import Loading from "./Animation/Loading";
 const Css = () => {
   return (
     <Routes>
-      <Route path="/trans-effect" element={<TransEffect />} />
-      <Route path="/Keyframes" element={<Keyframes />} />
-      <Route path="/loading" element={<Loading />} />
+      <Route path="trans-effect" element={<TransEffect />} />
+      <Route path="keyframes" element={<Keyframes />} />
+      <Route path="loading" element={<Loading />} />
     </Routes>
   );
 };

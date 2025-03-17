@@ -3,10 +3,88 @@ import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 
 const Keyframes = () => {
+  // 코드 블록에 클릭 이벤트 추가
+  const handleCodeBlockClick = (e) => {
+    // 클릭한 위치가 코드 블록의 오른쪽 상단인지 확인 (아이콘 위치)
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // 오른쪽 상단 영역 (아이콘 영역)인 경우에만 복사 기능 실행
+    if (x > rect.width - 40 && y < 40) {
+      const code = e.currentTarget.textContent;
+      navigator.clipboard
+        .writeText(code)
+        .then(() => {
+          // 복사 성공 표시 (임시 알림)
+          const notification = document.createElement("div");
+          notification.textContent = "복사됨!";
+          notification.style.position = "fixed";
+          notification.style.right = "20px";
+          notification.style.bottom = "20px";
+          notification.style.backgroundColor = "rgba(59, 130, 246, 0.9)";
+          notification.style.color = "white";
+          notification.style.padding = "8px 16px";
+          notification.style.borderRadius = "4px";
+          notification.style.zIndex = "1000";
+          document.body.appendChild(notification);
+
+          // 2초 후 알림 제거
+          setTimeout(() => {
+            document.body.removeChild(notification);
+          }, 2000);
+        })
+        .catch((err) => {
+          console.error("복사 실패: ", err);
+        });
+    }
+  };
+
   return (
     <Container>
       <Header>
-        <BackLink to="/css-animations">← 애니메이션 메인으로</BackLink>
+        <BackLink to="/css-animations">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <g
+              fill="none"
+              stroke="#f1f1f1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+            >
+              <path
+                strokeDasharray="64"
+                strokeDashoffset="64"
+                d="M21 12c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9c0 -4.97 4.03 -9 9 -9c4.97 0 9 4.03 9 9Z"
+              >
+                <animate
+                  fill="freeze"
+                  attributeName="stroke-dashoffset"
+                  dur="0.6s"
+                  values="64;0"
+                />
+              </path>
+              <path
+                strokeDasharray="6"
+                strokeDashoffset="6"
+                d="M10 12l3 -3M10 12l3 3"
+              >
+                <animate
+                  fill="freeze"
+                  attributeName="stroke-dashoffset"
+                  begin="0.7s"
+                  dur="0.3s"
+                  values="6;0"
+                />
+              </path>
+            </g>
+          </svg>
+        </BackLink>
         <Title>키프레임 애니메이션</Title>
         <Subtitle>
           복잡한 움직임을 단계별로 정의하는 CSS 키프레임 애니메이션 예제
@@ -18,7 +96,7 @@ const Keyframes = () => {
         <AnimationCard>
           <AnimationTitle>페이드 인/아웃 (Fade)</AnimationTitle>
           <FadeBox />
-          <CodeBlock>
+          <CodeBlock onClick={handleCodeBlockClick}>
             {`const fadeAnimation = keyframes\`
   0% { opacity: 1; }
   50% { opacity: 0; }
@@ -458,12 +536,11 @@ const Header = styled.header`
 const BackLink = styled(Link)`
   display: block;
   margin-bottom: 1rem;
-  color: #666;
   text-decoration: none;
   font-size: 1rem;
+  text-align: left;
 
   &:hover {
-    color: #333;
     text-decoration: underline;
   }
 `;
@@ -532,6 +609,7 @@ const AnimationTitle = styled.h3`
 `;
 
 const CodeBlock = styled.pre`
+  position: relative;
   background-color: rgba(0, 0, 0, 0.3);
   padding: 1rem;
   border-radius: 8px;
@@ -540,6 +618,21 @@ const CodeBlock = styled.pre`
   overflow-x: auto;
   margin-top: 2rem;
   color: #e2e8f0;
+
+  &::after {
+    content: "📋";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
 `;
 
 // 페이드 인/아웃 애니메이션
@@ -946,6 +1039,6 @@ const TypingTextBox = styled.div`
     ${blinkCursorAnimation} 0.7s step-end infinite;
 
   &:after {
-    content: "여러분이 좋아하시는 애니메이션 효과는 무엇인가요? 😊 Typing ? ";
+    content: "여러분이 좋아하는 애니메이션 효과는 무엇인가요?";
   }
 `;

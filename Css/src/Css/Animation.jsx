@@ -177,7 +177,6 @@ const GradientBackground = styled.div`
 `;
 
 const Container = styled.div`
-  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 4rem 2rem;
@@ -303,7 +302,7 @@ const CategorySection = styled.div`
   }
 
   ${media.mobile} {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.25rem;
     margin-bottom: 3rem;
   }

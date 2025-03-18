@@ -1,8 +1,69 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const TransEffect = () => {
+  useEffect(() => {
+    // 모든 pre 태그 선택
+    const codeBlocks = document.querySelectorAll("pre");
+
+    // 스타일 추가 - 복사됨 메시지를 위한 CSS 클래스
+    if (!document.getElementById("copy-style")) {
+      const style = document.createElement("style");
+      style.id = "copy-style";
+      style.textContent = `
+          .copied::after {
+            content: "";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            background-image: url("/images/copyOk.svg");
+            animation: fade-out 2s forwards;
+          }
+          
+          @keyframes fade-out {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; }
+          }
+        `;
+      document.head.appendChild(style);
+    }
+
+    const handleCodeBlockClick = (e) => {
+      const codeBlock = e.currentTarget;
+      const code = codeBlock.textContent;
+
+      navigator.clipboard
+        .writeText(code)
+        .then(() => {
+          // 복사 후 클래스 추가
+          codeBlock.classList.add("copied");
+
+          // 애니메이션이 끝난 후 클래스 제거
+          setTimeout(() => {
+            codeBlock.classList.remove("copied");
+          }, 2000);
+        })
+        .catch((err) => console.error("복사 실패:", err));
+    };
+
+    // 이벤트 리스너 등록
+    codeBlocks.forEach((block) => {
+      block.removeEventListener("click", handleCodeBlockClick);
+      block.addEventListener("click", handleCodeBlockClick);
+      block.style.cursor = "pointer"; // 클릭 가능함을 시각적으로 표시
+    });
+
+    // 클린업 함수
+    return () => {
+      codeBlocks.forEach((block) => {
+        block.removeEventListener("click", handleCodeBlockClick);
+      });
+    };
+  }, []);
   return (
     <Container>
       <Header>
@@ -659,12 +720,14 @@ const AnimationGrid = styled.div`
   }
 
   ${media.mobile} {
-    grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
     gap: 1.25rem;
   }
 `;
 
-const AnimationCard = styled.div`
+// AnimationCard 컴포넌트에 className 추가
+const AnimationCard = styled.div.attrs({ className: "animation-card" })`
+  position: relative; /* 알림의 absolute 위치 지정을 위해 필요 */
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 1.5rem;
@@ -689,6 +752,7 @@ const AnimationTitle = styled.h3`
 `;
 
 const CodeBlock = styled.pre`
+  position: relative;
   background-color: rgba(0, 0, 0, 0.3);
   padding: 1rem;
   border-radius: 8px;
@@ -697,6 +761,25 @@ const CodeBlock = styled.pre`
   overflow-x: auto;
   margin-top: 2rem;
   color: #e2e8f0;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background-image: url("/images/copyCode.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
 `;
 
 // 회전 변형

@@ -62,7 +62,6 @@ const Main = () => {
 
 export default Main;
 
-// 여기서부터 스타일 정의는 동일하게 유지됩니다
 const glowPulse = keyframes`
   0% { opacity: 0.5; }
   50% { opacity: 0.8; }
@@ -126,7 +125,6 @@ const GradientBackground = styled.div`
 `;
 
 const Container = styled.div`
-  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 4rem 2rem;

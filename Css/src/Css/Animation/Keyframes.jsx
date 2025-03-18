@@ -1,44 +1,69 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 
 const Keyframes = () => {
-  // 코드 블록에 클릭 이벤트 추가
-  const handleCodeBlockClick = (e) => {
-    // 클릭한 위치가 코드 블록의 오른쪽 상단인지 확인 (아이콘 위치)
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+  useEffect(() => {
+    // 모든 pre 태그 선택
+    const codeBlocks = document.querySelectorAll("pre");
 
-    // 오른쪽 상단 영역 (아이콘 영역)인 경우에만 복사 기능 실행
-    if (x > rect.width - 40 && y < 40) {
-      const code = e.currentTarget.textContent;
+    // 스타일 추가 - 복사됨 메시지를 위한 CSS 클래스
+    if (!document.getElementById("copy-style")) {
+      const style = document.createElement("style");
+      style.id = "copy-style";
+      style.textContent = `
+        .copied::after {
+          content: "";
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          width: 20px;
+          height: 20px;
+          background-image: url("/images/copyOk.svg");
+          animation: fade-out 2s forwards;
+        }
+        
+        @keyframes fade-out {
+          0% { opacity: 1; }
+          70% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    const handleCodeBlockClick = (e) => {
+      const codeBlock = e.currentTarget;
+      const code = codeBlock.textContent;
+
       navigator.clipboard
         .writeText(code)
         .then(() => {
-          // 복사 성공 표시 (임시 알림)
-          const notification = document.createElement("div");
-          notification.textContent = "복사됨!";
-          notification.style.position = "fixed";
-          notification.style.right = "20px";
-          notification.style.bottom = "20px";
-          notification.style.backgroundColor = "rgba(59, 130, 246, 0.9)";
-          notification.style.color = "white";
-          notification.style.padding = "8px 16px";
-          notification.style.borderRadius = "4px";
-          notification.style.zIndex = "1000";
-          document.body.appendChild(notification);
+          // 복사 후 클래스 추가
+          codeBlock.classList.add("copied");
 
-          // 2초 후 알림 제거
+          // 애니메이션이 끝난 후 클래스 제거
           setTimeout(() => {
-            document.body.removeChild(notification);
+            codeBlock.classList.remove("copied");
           }, 2000);
         })
-        .catch((err) => {
-          console.error("복사 실패: ", err);
-        });
-    }
-  };
+        .catch((err) => console.error("복사 실패:", err));
+    };
+
+    // 이벤트 리스너 등록
+    codeBlocks.forEach((block) => {
+      block.removeEventListener("click", handleCodeBlockClick);
+      block.addEventListener("click", handleCodeBlockClick);
+      block.style.cursor = "pointer"; // 클릭 가능함을 시각적으로 표시
+    });
+
+    // 클린업 함수
+    return () => {
+      codeBlocks.forEach((block) => {
+        block.removeEventListener("click", handleCodeBlockClick);
+      });
+    };
+  }, []);
 
   return (
     <Container>
@@ -96,7 +121,7 @@ const Keyframes = () => {
         <AnimationCard>
           <AnimationTitle>페이드 인/아웃 (Fade)</AnimationTitle>
           <FadeBox />
-          <CodeBlock onClick={handleCodeBlockClick}>
+          <CodeBlock>
             {`const fadeAnimation = keyframes\`
   0% { opacity: 1; }
   50% { opacity: 0; }
@@ -588,7 +613,9 @@ const AnimationGrid = styled.div`
   }
 `;
 
-const AnimationCard = styled.div`
+// AnimationCard 컴포넌트에 className 추가
+const AnimationCard = styled.div.attrs({ className: "animation-card" })`
+  position: relative; /* 알림의 absolute 위치 지정을 위해 필요 */
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 1.5rem;
@@ -620,11 +647,15 @@ const CodeBlock = styled.pre`
   color: #e2e8f0;
 
   &::after {
-    content: "📋";
+    content: "";
     position: absolute;
     top: 10px;
     right: 10px;
-    font-size: 16px;
+    width: 20px;
+    height: 20px;
+    background-image: url("/images/copyCode.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
     cursor: pointer;
     opacity: 0.7;
     transition: opacity 0.2s;

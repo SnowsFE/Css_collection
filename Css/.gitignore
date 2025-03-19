@@ -1,23 +1,34 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# 환경 변수 파일 (보안 키, API 키 등 포함)
+.env
+.env.*
+!.env.example
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# 인증 관련 파일
+**/auth/*
+**/credentials/*
+**/secrets/*
 
-# testing
-/coverage
+# 개인 설정 파일
+**/config.json
+**/settings.json
 
-# production
-/build
+# 인증서 파일
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
 
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# 로그 파일
+*.log
+logs/
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Firebase 구성
+firebase-config.json
+firebase-admin-sdk.json
+serviceAccountKey.json
+
+# AWS 구성
+aws-config.json
+awsconfig.json

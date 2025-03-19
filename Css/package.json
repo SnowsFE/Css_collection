@@ -2,7 +2,7 @@
   "name": "css",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://snoerkr.github.io/Snoer-Animation",
+  "homepage": "https://snowsfe.github.io/Snoer-Animation",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
